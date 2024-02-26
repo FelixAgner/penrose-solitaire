@@ -5,9 +5,9 @@
  * 
  * @module boardManager
  */
+import { boardSize} from './config.js';
 
-
-let rhombs = `x_1,x_2,x_3,x_4,y_1,y_2,y_3,y_4
+let rhombData = `x_1,x_2,x_3,x_4,y_1,y_2,y_3,y_4
 -3.33066907387547e-16,-0.555029102851551,0,0.555029102851551,1.52786404500042,0.76393202250021,-0,0.76393202250021
 -0.555029102851551,-1.45308505601072,-0.89805595315917,0,0.76393202250021,0.472135954999579,-0.291796067500631,-0
 0,-0.898055953159171,-0.898055953159171,2.77555756156289e-16,-0,-0.291796067500631,-1.23606797749979,-0.944271909999159
@@ -77,10 +77,9 @@ let rhombs = `x_1,x_2,x_3,x_4,y_1,y_2,y_3,y_4
 -3.80422606518062,-4.35925516803217,-3.80422606518061,-3.24919696232906,1.23606797749979,0.472135954999579,-0.291796067500632,0.472135954999579
 -2.35114100916989,-1.79611190631834,-0.89805595315917,-1.45308505601072,-3.23606797749979,-4,-3.70820393249937,-2.94427190999916
 2.35114100916989,3.24919696232906,3.24919696232906,2.35114100916989,-3.23606797749979,-2.94427190999916,-2,-2.29179606750063
-3.80422606518061,3.80422606518061,2.90617011202144,2.90617011202144,1.23606797749979,2.18033988749895,2.47213595499958,1.52786404500042
-`;
+3.80422606518061,3.80422606518061,2.90617011202144,2.90617011202144,1.23606797749979,2.18033988749895,2.47213595499958,1.52786404500042`;
 
-let moves = `jump_from,jump_over,jump_to
+let moveData = `jump_from,jump_over,jump_to
 55,50,44
 44,50,55
 50,44,49
@@ -300,8 +299,7 @@ let moves = `jump_from,jump_over,jump_to
 62,47,42
 42,47,62
 37,57,52
-52,57,37
-`
+52,57,37`
 
 function parseCsv(csv) {
     let lines = csv.split('\n');
@@ -318,9 +316,74 @@ function parseCsv(csv) {
     return result;
 }
 
-export function loadBoard() {
+function scaleRhombus(rhombus) {
     return {
-        rhombs: parseCsv(rhombs),
-        moves: parseCsv(moves)
+        corners : rhombus.corners.map(corner => ({
+            x: boardSize.width * (1/2 + corner.x * boardSize.scaleFactor),
+            y: boardSize.height * (1/2 + corner.y * boardSize.scaleFactor)
+        })),
+        center: {
+            x: boardSize.width * (1/2 + rhombus.center.x * boardSize.scaleFactor),
+            y: boardSize.height * (1/2 + rhombus.center.y * boardSize.scaleFactor)
+        }
+    }
+}
+
+function cleanRhombus(rhombus) {
+    let mx = (rhombus.x_1 / 4 + rhombus.x_2 / 4 + rhombus.x_3 / 4 + rhombus.x_4 / 4);
+    let my = (rhombus.y_1 / 4 + rhombus.y_2 / 4 + rhombus.y_3 / 4 + rhombus.y_4 / 4);
+    return {
+        corners: [
+            {x: rhombus.x_1, y: rhombus.y_1},
+            {x: rhombus.x_2, y: rhombus.y_2},
+            {x: rhombus.x_3, y: rhombus.y_3},
+            {x: rhombus.x_4, y: rhombus.y_4},
+        ],
+        center: {
+            x: mx,
+            y: my
+        }
+    }
+}
+
+function findMidpoint(r1, r2) {
+    // find shared corners between r1 and r2
+    let sharedCorners = [];
+    r1.corners.forEach(c1 => {
+        r2.corners.forEach(c2 => {
+            if ( Math.abs(c1.x - c2.x) < 0.1 && Math.abs(c1.y - c2.y) < 0.1) {
+                sharedCorners.push(c1);
+            }
+        });
+    });
+    if (sharedCorners.length !== 2) {
+        throw new Error("Couldn't find shared corners between rhombus");
+    }
+    return {
+        x: (sharedCorners[0].x + sharedCorners[1].x) / 2,
+        y: (sharedCorners[0].y + sharedCorners[1].y) / 2
+    }
+
+}
+
+function cleanMove(move, rhombs) {    
+    return {
+        jump_from: parseInt(move.jump_from),
+        jump_over: parseInt(move.jump_over),
+        jump_to: parseInt(move.jump_to),
+        point_1: rhombs[move.jump_from].center,
+        point_2: findMidpoint(rhombs[move.jump_from], rhombs[move.jump_over]),
+        point_3: rhombs[move.jump_over].center,
+        point_4: findMidpoint(rhombs[move.jump_over], rhombs[move.jump_to]),
+        point_5: rhombs[move.jump_to].center
+    }
+}
+
+export function loadBoard() {
+    let rhombs = parseCsv(rhombData).map(cleanRhombus).map(scaleRhombus);
+    let moves = parseCsv(moveData).map(move => cleanMove(move, rhombs));
+    return {
+        rhombs: rhombs,
+        moves: moves
     };
 }

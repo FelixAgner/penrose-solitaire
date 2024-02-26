@@ -10,61 +10,82 @@
 
 // Import p5.js as a module
 import p5 from 'https://cdn.skypack.dev/p5';
-
-const boardSize = {
-    width: 800,
-    height: 800,
-    scaleFactor: 0.1
-}
-
-const colors = {
-    rhombus: 'rgba(50, 50, 150, 0.5)',
-    background: 'rgba(150, 150, 255, 0.1)'
-}
+import { boardSize, colors } from './config.js';
 
 // Define a sketch function
-export function boardSketch(gameboard) {
-    let diameter = 100;
-    let board = gameboard;
-    let size = {
-        x: boardSize.width,
-        y: boardSize.height
-    }
+export function boardSketch(board, pegs, clickHandler) {
+
     return (p) => {
         p.setup = function() {
-            p.createCanvas(size.x, size.y);
-        
-          p.draw = function() {
+            p.createCanvas(boardSize.width, boardSize.height);
+        };
+        p.draw = function() {
             p.background(colors.background);
+            
             // draw all the rhombs in board
-            board.rhombs.forEach(rhomb => {
-                drawRhombus(p, rhomb);
+            board.rhombs.forEach(rhombus => {
+                drawRhombus(p, rhombus);
             });
-          };
-        }
-    }
+                
+            // draw all the moves on the board
+            board.moves.forEach(move => {
+                drawMove(p, move);
+            });
+
+            // draw all the pegs in pegs
+            pegs.forEach(peg => {
+                drawPeg(p, peg);
+            });
+        };
+
+        p.mouseClicked = function() {
+            // Check if the mouse is over a peg
+            let mousePos = {
+                x: p.mouseX,
+                y: p.mouseY
+            };
+            clickHandler(mousePos);
+        };
+        
+    };
 };
 
-function scaleRhomb(rhomb) {
-    let f = (i, j) => ({
-        x: boardSize.width * (1/2 + i * boardSize.scaleFactor), 
-        y: boardSize.height * (1/2 + j * boardSize.scaleFactor), 
-    });
-    return [ 
-        f(rhomb.x_1, rhomb.y_1), 
-        f(rhomb.x_2, rhomb.y_2), 
-        f(rhomb.x_3, rhomb.y_3), 
-        f(rhomb.x_4, rhomb.y_4)
-    ];
+function drawPeg(p, peg) {
+    if (peg.removed) {
+        p.fill(colors.pegHole);
+    } else if (peg.active) {
+        p.fill(colors.pegFill);
+    } else {
+        p.fill(colors.pegSelected);
+    }
+    p.stroke(colors.pegLine);
+    p.ellipse(peg.position.x, peg.position.y, 20, 20);
 }
 
-function drawRhombus(p, rhomb) {
-    // draw a rhombus using x1, y1, x2, y2, x3, y3, x4, y4   
-    let coords = scaleRhomb(rhomb);
-    p.fill(colors.rhombus); // Example: semi-transparent red
+function drawRhombus(p, rhombus) {
+    p.stroke(colors.rhombusLine);
+    p.fill(colors.rhombus); 
     p.beginShape();
-    coords.forEach(coord => {
+    rhombus.corners.forEach(coord => {
         p.vertex(coord.x, coord.y);
     });
     p.endShape(p.CLOSE); // Use p.CLOSE to close the shape
+}
+
+function drawMove(p, move) {
+    p.stroke(colors.moveLine);
+    // start a quadratic curve for the first part of the move.
+    p.noFill()
+    p.beginShape();
+    p.vertex(
+        move.point_1.x,
+        move.point_1.y
+        );
+    p.quadraticVertex(
+        move.point_2.x,
+        move.point_2.y,
+        move.point_3.x,
+        move.point_3.y
+        );
+    p.endShape();
 }
