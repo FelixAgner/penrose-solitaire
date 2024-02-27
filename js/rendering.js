@@ -41,6 +41,10 @@ export function boardSketch(game, container) {
             // draw the active peg on top of everything else
             drawActivePeg(p, game);
 
+            if (!game.firstRemoved) {
+                drawRemoveFirst(p, game);
+            }
+
             // draw the score on top right corner
             drawScore(p, game);
 
@@ -61,6 +65,13 @@ export function boardSketch(game, container) {
         
     };
 };
+
+function drawRemoveFirst(p, game) {
+    // Draw a message at the bottom center of the screen
+    p.fill(255);
+    p.textSize(32);
+    p.text('Remove a peg to start', boardSize.width / 2 - 200, boardSize.height - 50);
+}
 
 function drawWinMessage(p) {
     p.fill(255);

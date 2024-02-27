@@ -88,7 +88,6 @@ function cleanMove(move, rhombs) {
 }
 
 export function loadBoard(size) {
-    console.log("Loading game with size: " + size)
     let rhombData;
     let moveData;
     if (size == "small") {
@@ -98,7 +97,6 @@ export function loadBoard(size) {
         rhombData = mediumRhombs;
         moveData = mediumMoves;
     } else if (size == "large") {
-        console.log("Loading large board")
         rhombData = largeRhombs;
         moveData = largeMoves;
     } else {
