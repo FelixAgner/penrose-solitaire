@@ -19,6 +19,7 @@ export function boardSketch(game, container) {
         p.setup = function() {
             let canvas = p.createCanvas(boardSize.width, boardSize.height);
             canvas.parent(container);
+            canvas.id("boardCanvas")
         };
         p.draw = function() {
             p.background(colors.background);

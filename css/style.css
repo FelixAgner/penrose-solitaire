@@ -54,3 +54,8 @@ button:focus {
         font-size: 16px;
     }
 }
+
+#boardCanvas {
+    border-radius: 70px; /* Adjust the radius as needed */
+  }
+  
