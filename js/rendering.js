@@ -43,6 +43,11 @@ export function boardSketch(game, container) {
 
             // draw the score on top right corner
             drawScore(p, game);
+
+            // draw the win message
+            if (game.isWon) {
+                drawWinMessage(p);
+            }
         };
 
         p.mouseClicked = function() {
@@ -56,6 +61,12 @@ export function boardSketch(game, container) {
         
     };
 };
+
+function drawWinMessage(p) {
+    p.fill(255);
+    p.textSize(128);
+    p.text('You Win!', boardSize.width / 2 - 100, boardSize.height / 2);
+}
 
 function drawScore(p, game) {
     // write game.score() on top right corner

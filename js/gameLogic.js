@@ -23,6 +23,7 @@ export function Game() {
     }
     this.handleClick = function(clickPos) {
         handleClick(this, clickPos);
+        checkWin(this);
     }
     this.canUndo = function() {
         return this.moveHistory.length > 0;
@@ -56,6 +57,7 @@ function loadGame(game, size) {
     game.activePeg = null;
     game.moveHistory = [];
     game.firstRemoved = false;
+    game.isWon = false;
 }
 
 /**
@@ -93,6 +95,12 @@ function handleClick(game, clickPos) {
     }
 }
 
+function checkWin(game) {
+    if (game.pegs.filter(peg => !peg.removed).length === 1) {
+        game.isWon = true;
+    }
+}
+
 function isLegalMove(game, move, targetPeg) {
     return move.jump_from === game.activePeg.index && game.pegs[move.jump_over].removed === false && game.pegs[move.jump_to].removed === true && targetPeg.index === move.jump_to;
 }
@@ -103,6 +111,7 @@ function undo(game) {
     game.pegs[lastMove.jump_over].removed = false;
     game.pegs[lastMove.jump_to].removed = true;
     game.activePeg = null;
+    game.isWon = false;
 }
 
 function makeMove(game, move) {
