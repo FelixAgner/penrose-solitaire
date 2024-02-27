@@ -70,7 +70,7 @@ function drawRemoveFirst(p, game) {
     // Draw a message at the bottom center of the screen
     p.fill(255);
     p.textSize(32);
-    p.text('Remove a peg to start', boardSize.width / 2 - 200, boardSize.height - 50);
+    p.text('Remove a peg to start', boardSize.width / 2 - 170, boardSize.height - 30);
 }
 
 function drawWinMessage(p) {
