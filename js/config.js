@@ -10,8 +10,8 @@ export const colors = {
     background: 'rgba(150, 150, 255, 1)',
     rhombusLine: 'rgba(240, 240, 255, 0.8)',
     moveLine: 'rgba(255, 255, 255, 0.8)',
-    pegFill: 'rgba(255, 255, 255, 1)',
-    pegHole: 'rgba(0, 0, 0, 1.0)',
-    pegSelected: 'rgba(255, 0, 0, 0.8)',
+    pegFill: 'rgba(0, 0, 255, 1)',
+    pegHole: 'rgba(0, 0, 20, 1.0)',
+    pegSelected: 'rgba(240, 240, 255, 1.0)',
     pegLine: 'rgba(255, 255, 255, 0.8)',
 }

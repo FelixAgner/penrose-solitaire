@@ -1,17 +1,20 @@
-import { loadBoard } from './boardManager.js';
 import { boardSketch } from './rendering.js';
-import { handleClick } from './gameLogic.js';
+import { Game } from './gameLogic.js';
 
-// Instantiate the sketch
-let board = loadBoard();
-let pegs = board.rhombs.map(rhomb => ({
-    active: true,
-    removed: false,
-    position: rhomb.center
-}));
-console.log(board);
-let clickHandler = function(pos) {
-    handleClick(board, pegs, pos);
-}
-const sketch = boardSketch(board, pegs, clickHandler);
-new p5(sketch);
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const canvasContainer = document.querySelector('#canvas-container');
+    // Instantiate the sketch
+    let game = new Game();
+    const sketch = boardSketch(game, canvasContainer);
+    new p5(sketch);
+
+    // Event listeners for buttons
+    document.getElementById('small').addEventListener('click', () => game.changeBoardSize('small'));
+    document.getElementById('medium').addEventListener('click', () => game.changeBoardSize('medium'));
+    document.getElementById('large').addEventListener('click', () => game.changeBoardSize('large'));
+    document.getElementById('reset').addEventListener('click', () => game.reset());
+    document.getElementById('undo').addEventListener('click', () => game.undo());
+});

@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penrose peg solitaire</title>
+    <title>Penrose Peg Solitaire</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- If you have any CSS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
 <body>
+    <div id="size-buttons">
+        <button id="small">Small</button>
+        <button id="medium">Medium</button>
+        <button id="large">Large</button>
+    </div>
+    <div id="canvas-container"></div> <!-- Canvas will be injected here -->
+    <div id="game-buttons">
+        <button id="reset">Reset</button>
+        <button id="undo">Undo</button>
+    </div>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

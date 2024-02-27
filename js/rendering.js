@@ -13,29 +13,36 @@ import p5 from 'https://cdn.skypack.dev/p5';
 import { boardSize, colors } from './config.js';
 
 // Define a sketch function
-export function boardSketch(board, pegs, clickHandler) {
+export function boardSketch(game, container) {
 
     return (p) => {
         p.setup = function() {
-            p.createCanvas(boardSize.width, boardSize.height);
+            let canvas = p.createCanvas(boardSize.width, boardSize.height);
+            canvas.parent(container);
         };
         p.draw = function() {
             p.background(colors.background);
             
             // draw all the rhombs in board
-            board.rhombs.forEach(rhombus => {
+            game.rhombs.forEach(rhombus => {
                 drawRhombus(p, rhombus);
             });
-                
+
             // draw all the moves on the board
-            board.moves.forEach(move => {
+            game.moves.forEach(move => {
                 drawMove(p, move);
             });
 
             // draw all the pegs in pegs
-            pegs.forEach(peg => {
+            game.pegs.forEach(peg => {
                 drawPeg(p, peg);
             });
+            
+            // draw the active peg on top of everything else
+            drawActivePeg(p, game);
+
+            // draw the score on top right corner
+            drawScore(p, game);
         };
 
         p.mouseClicked = function() {
@@ -44,22 +51,35 @@ export function boardSketch(board, pegs, clickHandler) {
                 x: p.mouseX,
                 y: p.mouseY
             };
-            clickHandler(mousePos);
+            game.handleClick(mousePos);
         };
         
     };
 };
 
+function drawScore(p, game) {
+    // write game.score() on top right corner
+    p.fill(255);
+    p.textSize(32);
+    p.text('Score: ' + game.score(), boardSize.width - 200, 50);
+}
+
+function drawActivePeg(p, game) {
+    if (game.activePeg) {
+        p.fill(colors.pegSelected);
+        p.stroke(colors.pegLine);
+        p.ellipse(game.activePeg.position.x, game.activePeg.position.y, boardSize.pegSize, boardSize.pegSize);
+    }
+}
+
 function drawPeg(p, peg) {
     if (peg.removed) {
         p.fill(colors.pegHole);
-    } else if (peg.active) {
-        p.fill(colors.pegFill);
     } else {
-        p.fill(colors.pegSelected);
+        p.fill(colors.pegFill);
     }
     p.stroke(colors.pegLine);
-    p.ellipse(peg.position.x, peg.position.y, 20, 20);
+    p.ellipse(peg.position.x, peg.position.y, boardSize.pegSize, boardSize.pegSize);
 }
 
 function drawRhombus(p, rhombus) {
