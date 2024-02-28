@@ -39,7 +39,7 @@ export function boardSketch(game, container) {
 
             // draw all the pegs in pegs
             game.pegs.forEach(peg => {
-                drawPeg(p, peg);
+                drawPeg(p, peg, game.size);
             });
             
             // draw the active peg on top of everything else
@@ -97,12 +97,12 @@ function drawActivePeg(p, game) {
         p.ellipse(
             game.activePeg.position.x * p.width, 
             game.activePeg.position.y * p.width, 
-            boardSize.pegSize * p.width, 
-            boardSize.pegSize * p.width);
+            boardSize.pegSize[game.size] * p.width, 
+            boardSize.pegSize[game.size] * p.width);
     }
 }
 
-function drawPeg(p, peg) {
+function drawPeg(p, peg, size) {
     if (peg.removed) {
         p.fill(colors.pegHole);
     } else {
@@ -112,8 +112,8 @@ function drawPeg(p, peg) {
     p.ellipse(
         peg.position.x * p.width, 
         peg.position.y * p.width, 
-        boardSize.pegSize * p.width, 
-        boardSize.pegSize * p.width
+        boardSize.pegSize[size] * p.width, 
+        boardSize.pegSize[size] * p.width
         );
 }
 

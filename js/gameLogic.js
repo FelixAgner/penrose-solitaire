@@ -56,7 +56,7 @@ function loadGame(game, size) {
     });
     game.activePeg = null;
     game.moveHistory = [];
-    game.firstRemoved = false;
+    game.firstRemoved = null;
     game.isWon = false;
 }
 
@@ -68,10 +68,11 @@ function loadGame(game, size) {
  */
 function handleClick(game, clickPos) {
     // Check if the click is on a peg
-    let peg = game.pegs.find(peg => dist(peg.position, clickPos) < boardSize.pegSize);
+    let peg = game.pegs.find(peg => dist(peg.position, clickPos) < boardSize.pegSize[game.size]);
+    console.log(peg);
     if (peg) {
         // Check if there is an active peg
-        if (!game.firstRemoved) {
+        if (game.firstRemoved === null) {
             peg.removed = true;
             game.firstRemoved = peg.index;
         } else if (game.activePeg) {
