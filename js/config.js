@@ -11,7 +11,7 @@ export const colors = {
     rhombusLine: 'rgba(240, 240, 255, 0.8)',
     moveLine: 'rgba(180, 180, 180, 0.4)',
     pegFill: 'rgba(0, 0, 255, 1)',
-    pegHole: 'rgba(40, 40, 100, 1.0)',
+    pegHole: 'rgba(40, 40, 100, 0.0)',
     pegSelected: 'rgba(240, 240, 255, 1.0)',
     pegLine: 'rgba(255, 255, 255, 0.8)',
 }
