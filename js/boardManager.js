@@ -28,11 +28,11 @@ function scaleRhombus(rhombus) {
     return {
         corners : rhombus.corners.map(corner => ({
             x: 1/2 + corner.x * boardSize.scaleFactor,
-            y: 1/2 + corner.y * boardSize.scaleFactor
+            y: 1/2 - corner.y * boardSize.scaleFactor // turn upside down
         })),
         center: {
             x: 1/2 + rhombus.center.x * boardSize.scaleFactor,
-            y: 1/2 + rhombus.center.y * boardSize.scaleFactor
+            y: 1/2 - rhombus.center.y * boardSize.scaleFactor // turn upside down
         }
     }
 }
