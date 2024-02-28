@@ -2,7 +2,7 @@ export const boardSize = {
     width: 800,
     height: 800,
     scaleFactor: 0.1,
-    pegSize: 20,
+    pegSize: 0.025,
 }
 
 export const colors = {

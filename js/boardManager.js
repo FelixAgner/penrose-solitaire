@@ -27,12 +27,12 @@ function parseCsv(csv) {
 function scaleRhombus(rhombus) {
     return {
         corners : rhombus.corners.map(corner => ({
-            x: boardSize.width * (1/2 + corner.x * boardSize.scaleFactor),
-            y: boardSize.height * (1/2 + corner.y * boardSize.scaleFactor)
+            x: 1/2 + corner.x * boardSize.scaleFactor,
+            y: 1/2 + corner.y * boardSize.scaleFactor
         })),
         center: {
-            x: boardSize.width * (1/2 + rhombus.center.x * boardSize.scaleFactor),
-            y: boardSize.height * (1/2 + rhombus.center.y * boardSize.scaleFactor)
+            x: 1/2 + rhombus.center.x * boardSize.scaleFactor,
+            y: 1/2 + rhombus.center.y * boardSize.scaleFactor
         }
     }
 }
@@ -59,7 +59,7 @@ function findMidpoint(r1, r2) {
     let sharedCorners = [];
     r1.corners.forEach(c1 => {
         r2.corners.forEach(c2 => {
-            if ( Math.abs(c1.x - c2.x) < 0.1 && Math.abs(c1.y - c2.y) < 0.1) {
+            if ( Math.abs(c1.x - c2.x) < 0.01 && Math.abs(c1.y - c2.y) < 0.01) {
                 sharedCorners.push(c1);
             }
         });

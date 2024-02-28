@@ -5,7 +5,7 @@ import { Game } from './gameLogic.js';
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const canvasContainer = document.querySelector('#canvas-container');
+    const canvasContainer = document.getElementById('canvas-container');
     // Instantiate the sketch
     let game = new Game();
     const sketch = boardSketch(game, canvasContainer);

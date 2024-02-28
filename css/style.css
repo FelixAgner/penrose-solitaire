@@ -34,9 +34,12 @@ button:focus {
     outline: none; /* Removes the outline to keep the design clean */
 }
 
-.canvas-container {
-    margin: 20px 0;
+#canvas-container {
+    width: 80%;
+    margin: 0 auto; /* Centers the container */
+    /* Optional: Set a max-width if you want to limit how wide the container can get */
 }
+
 
 /* Additional styling for specific buttons if needed */
 #reset-btn, #undo-btn {

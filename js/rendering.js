@@ -17,7 +17,10 @@ export function boardSketch(game, container) {
 
     return (p) => {
         p.setup = function() {
-            let canvas = p.createCanvas(boardSize.width, boardSize.height);
+            
+            let maxWidth = container.offsetWidth;
+            maxWidth = Math.min(maxWidth, boardSize.width);
+            let canvas = p.createCanvas(maxWidth, maxWidth);
             canvas.parent(container);
             canvas.id("boardCanvas")
         };
@@ -58,8 +61,8 @@ export function boardSketch(game, container) {
         p.mouseClicked = function() {
             // Check if the mouse is over a peg
             let mousePos = {
-                x: p.mouseX,
-                y: p.mouseY
+                x: p.mouseX / p.width,
+                y: p.mouseY / p.width
             };
             game.handleClick(mousePos);
         };
@@ -102,7 +105,12 @@ function drawPeg(p, peg) {
         p.fill(colors.pegFill);
     }
     p.stroke(colors.pegLine);
-    p.ellipse(peg.position.x, peg.position.y, boardSize.pegSize, boardSize.pegSize);
+    p.ellipse(
+        peg.position.x * p.width, 
+        peg.position.y * p.width, 
+        boardSize.pegSize * p.width, 
+        boardSize.pegSize * p.width
+        );
 }
 
 function drawRhombus(p, rhombus) {
@@ -110,7 +118,10 @@ function drawRhombus(p, rhombus) {
     p.fill(colors.rhombus); 
     p.beginShape();
     rhombus.corners.forEach(coord => {
-        p.vertex(coord.x, coord.y);
+        p.vertex(
+            coord.x * p.width, 
+            coord.y * p.width
+            );
     });
     p.endShape(p.CLOSE); // Use p.CLOSE to close the shape
 }
@@ -121,14 +132,14 @@ function drawMove(p, move) {
     p.noFill()
     p.beginShape();
     p.vertex(
-        move.point_1.x,
-        move.point_1.y
+        move.point_1.x * p.width,
+        move.point_1.y * p.width
         );
     p.quadraticVertex(
-        move.point_2.x,
-        move.point_2.y,
-        move.point_3.x,
-        move.point_3.y
+        move.point_2.x * p.width,
+        move.point_2.y * p.width,
+        move.point_3.x * p.width,
+        move.point_3.y * p.width
         );
     p.endShape();
 }
