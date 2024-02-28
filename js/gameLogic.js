@@ -73,7 +73,7 @@ function handleClick(game, clickPos) {
         // Check if there is an active peg
         if (!game.firstRemoved) {
             peg.removed = true;
-            game.firstRemoved = true;
+            game.firstRemoved = peg.index;
         } else if (game.activePeg) {
             let legalMove = game.moves.find(move => isLegalMove(game, move, peg));
             if (legalMove) {
@@ -96,8 +96,12 @@ function handleClick(game, clickPos) {
 }
 
 function checkWin(game) {
+    // Check if only one peg is left
     if (game.pegs.filter(peg => !peg.removed).length === 1) {
-        game.isWon = true;
+        // Check if the peg left is the first one removed
+        if (!game.pegs[game.firstRemoved].removed) {
+            game.isWon = true;   
+        }
     }
 }
 
