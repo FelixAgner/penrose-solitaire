@@ -35,9 +35,12 @@ button:focus {
 }
 
 #canvas-container {
+    display:flex;
     width: 80%;
     margin: 0 auto; /* Centers the container */
     /* Optional: Set a max-width if you want to limit how wide the container can get */
+    align-items: center;
+    justify-content: center;
 }
 
 
