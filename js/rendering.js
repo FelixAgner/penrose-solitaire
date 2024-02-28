@@ -94,7 +94,11 @@ function drawActivePeg(p, game) {
     if (game.activePeg) {
         p.fill(colors.pegSelected);
         p.stroke(colors.pegLine);
-        p.ellipse(game.activePeg.position.x, game.activePeg.position.y, boardSize.pegSize, boardSize.pegSize);
+        p.ellipse(
+            game.activePeg.position.x * p.width, 
+            game.activePeg.position.y * p.width, 
+            boardSize.pegSize * p.width, 
+            boardSize.pegSize * p.width);
     }
 }
 
