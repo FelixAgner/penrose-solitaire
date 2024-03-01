@@ -66,6 +66,15 @@ export function boardSketch(game, container) {
             };
             game.handleClick(mousePos);
         };
+
+        p.touchStarted = function() {
+            let mousePos = {
+                x: p.mouseX / p.width,
+                y: p.mouseY / p.width
+            };
+            game.handleClick(mousePos);
+            return false;
+        };
         
     };
 };
