@@ -59,7 +59,6 @@ export function boardSketch(game, container) {
         };
 
         p.mouseClicked = function() {
-            // Check if the mouse is over a peg
             let mousePos = {
                 x: p.mouseX / p.width,
                 y: p.mouseY / p.width

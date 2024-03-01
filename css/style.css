@@ -36,7 +36,7 @@ button:focus {
 
 #canvas-container {
     display:flex;
-    width: 80%;
+    width: 95%;
     margin: 0 auto; /* Centers the container */
     /* Optional: Set a max-width if you want to limit how wide the container can get */
     align-items: center;
@@ -53,15 +53,19 @@ button:focus {
     background-color: #007bff; /* Consistent with the main theme */
 }
 
+#boardCanvas {
+    border-radius: 70px; /* Adjust the radius as needed */
+}
+  
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     button {
         padding: 12px 20px;
         font-size: 16px;
     }
+    #boardCanvas {
+        border-radius: 30px; /* Smaller radius for smaller screens */
+    }
 }
 
-#boardCanvas {
-    border-radius: 70px; /* Adjust the radius as needed */
-  }
-  
