@@ -73,21 +73,21 @@ export function boardSketch(game, container) {
 function drawRemoveFirst(p, game) {
     // Draw a message at the bottom center of the screen
     p.fill(255);
-    p.textSize(32);
-    p.text('Remove a peg to start', boardSize.width / 2 - 170, boardSize.height - 30);
+    p.textSize(32 * p.width / boardSize.width);
+    p.text('Remove a peg to start', p.width * 0.3, p.width * 0.95);
 }
 
 function drawWinMessage(p) {
     p.fill(255);
-    p.textSize(128);
-    p.text('You Win!', boardSize.width / 2 - 100, boardSize.height / 2);
+    p.textSize(128 * p.width / boardSize.width);
+    p.text('You Win!', p.width * 0.375, p.width / 2);
 }
 
 function drawScore(p, game) {
     // write game.score() on top right corner
     p.fill(255);
-    p.textSize(32);
-    p.text('Score: ' + game.score(), boardSize.width - 200, 50);
+    p.textSize(32 * p.width / boardSize.width);
+    p.text('Score: ' + game.score(), p.width * 0.77, p.width * 0.08);
 }
 
 function drawActivePeg(p, game) {
